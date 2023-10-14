@@ -1,9 +1,10 @@
 function generate() {
     let combinations = [];
-    let tshirtPrice = 50;
-    let jeansPrice = 80;
-    let jacketPrice = 100;
-    let budget = parseFloat(document.getElementById("budget").value);
+    let tshirtPrice =  document.getElementById("tShirtInput").value;
+    let jeansPrice = document.getElementById("jeansInput").value;
+    let jacketPrice = document.getElementById("jacketInput").value;
+    let minPrice = Math.min(tshirtPrice, Math.min(jeansPrice, jacketPrice));
+    let budget = document.getElementById("budget").value;
 
     const maxTshirts = Math.floor(budget / tshirtPrice);
     const maxJeans = Math.floor(budget / jeansPrice);
@@ -12,8 +13,9 @@ function generate() {
     for (let tshirts = 1; tshirts <= maxTshirts; tshirts++) {
         for (let jeans = 1; jeans <= maxJeans; jeans++) {
             const jackets = Math.floor((budget - (tshirts * tshirtPrice + jeans * jeansPrice)) / jacketPrice);
-            if (jackets >= 1) {
-                combinations.push(`T-shirts: ${tshirts}, Jeans: ${jeans}, Jackets: ${jackets}`);
+             let newBudget = budget - ((tshirts * tshirtPrice) + (jeans * jeansPrice) +(jackets * jacketPrice));
+            if (jackets >= 1 && newBudget < minPrice ) {
+                combinations.push(`T-shirts: ${tshirts}, Jeans: ${jeans}, Jackets: ${jackets}, balance: ${newBudget}`);
             }
         }
     }
